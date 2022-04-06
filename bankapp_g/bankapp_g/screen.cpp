@@ -1,23 +1,22 @@
 #include "screen.h"
 
+// 수정 해야 할 사항
+// 1. 불필요한 반복문 제거
+// 2. NewId 에서도 FineId를 사용하여 변경
+
 #define CUSTOMER_LIST 100
 /****************************************
 * 계좌 존재 확인
 ****************************************/
-int FineId(IdData* _str)
+int FineId(IdData* _str, int _id, const int _count)
 {
-	int id = 0;
-	std::cout << "계좌번호: ";
-	std::cin >> id;
-
-	for (int i = 0; i < CUSTOMER_LIST; i++)
+	for (int i = 0; i < _count; i++)
 	{
-		if (_str[i].ID == id)
+		if (_str[i].ID == _id)
 		{
 			return i;
 		}
 	}
-	std::cout << "해당 계좌가 없습니다." << std::endl;
 	return -1;
 }
 /****************************************
@@ -55,37 +54,27 @@ void MainScreen()
 		}
 		std::cout << std::endl;
 
-		if (sellect == 1)
+		switch (sellect)
 		{
+		case 1:
+			std::cout << "# # # [계좌 개설] # # #" << std::endl << std::endl;
 			NewId(list, count);
-		}
-		else if (sellect == 2)
-		{
+			break;
+		case 2:
 			std::cout << "[입 금]" << std::endl;
-
-			int idnumber = FineId(list);
-			if (idnumber >= 0)
-			{
-				Deposit(list, idnumber);
-			}
-		}
-		else if (sellect == 3)
-		{
+			Deposit(list, count);
+			break;
+		case 3:
 			std::cout << "[출 금]" << std::endl;
-
-			int idnumber = FineId(list);
-			if (idnumber >= 0)
-			{
-				Withdraw(list, idnumber);
-			}
-		}
-		else if (sellect == 4)
-		{
+			Withdraw(list, count);
+			break;
+		case 4:
 			std::cout << "# # # [전체 계좌 정보] # # #" << std::endl << std::endl;
-
 			IdDataShow(list, count);
+			break;
 		}
-		else if (sellect == 5)
+
+		if (sellect == 5)
 		{
 			break;
 		}
@@ -96,129 +85,84 @@ void MainScreen()
 /****************************************
 * 계좌 개설
 ****************************************/
-void NewId(IdData* _str, int& _count)
+void NewId(IdData* _list, int& _count)
 {
-	int check = 0;
-	if (_count == 0)
+	std::cout << "계좌번호: ";
+	std::cin >> _list[_count].ID;
+	if (_count == 0 || FineId(_list, _list[_count].ID, _count) == -1)
 	{
-		std::cout << "계좌번호 입력: ";
-		std::cin >> _str[_count].ID;
+		std::cout << "이 름: ";
+		std::cin >> _list[_count].name;
+		std::cout << "입금액: ";
+		std::cin >> _list[_count].money;
+		_count++;
 	}
 	else
 	{
-		std::cout << "계좌번호 입력: ";
-		while (1)
-		{
-			int test = 0;
-			std::cin >> _str[_count].ID;
-			for (int i = 0; i < _count; i++)
-			{
-				if (_str[i].ID == _str[_count].ID)
-				{
-					test++;
-					break;
-				}
-			}
-			if (test == 0)
-			{
-				break;
-			}
-			else
-			{
-				check++;
-				std::cout << "해당 계좌가 존재합니다." << std::endl;
-				break;
-			}
-		}
+		_list[_count].ID = 0;
+		std::cout << "해당 계좌가 존재 합니다." << std::endl;
 	}
-	if (check == 0)
-	{
-		std::cout << "이름 입력: ";
-		std::cin >> _str[_count].name;
-		std::cout << "입금액: ";
-		std::cin >> _str[_count].money;
-	}
-	_count++;
 }
 /****************************************
 * 입금
 ****************************************/
-void Deposit(IdData* _str, int _idnum)
+void Deposit(IdData* _list, const int _count)
 {
-	int _money = 0;
-	std::cout << "이름: " << _str[_idnum].name << std::endl
-		<< "입금액: ";
-	while (1)
+	int id = 0;
+	std::cout << "계좌번호: ";
+	std::cin >> id;
+	int i = FineId(_list, id, _count);
+	if (i != -1)
 	{
-		int choice = 1;
-		std::cin >> _money;
-		if (_money > 0)
+		int money = 0;
+		std::cout << "이 름: " << _list[i].name << std::endl
+			<< "잔액: " << _list[i].money << std::endl
+			<< "입금액: ";
+		std::cin >> money;
+		if (money > 0)
 		{
-			_str[_idnum].money += _money;
-			std::cout << "입금 완료." << std::endl
-				<< "잔액: " << _str[_idnum].money << std::endl;
-			break;
+			_list[i].money += money;
+			std::cout << "입금 완료" << std::endl;
 		}
-		std::cout << "0이하의 금액입니다. 다시 입력 하시겠습니까?" << std::endl;
-
-		while (choice != 1 && choice != 2)
+		else
 		{
-			std::cout << "1. 예 2. 아니요" << std::endl;
-			std::cin >> choice;
+			std::cout << "입력 금액이 0보다 작습니다." << std::endl;
 		}
-		if (choice == 1)
-		{
-			continue;
-		}
-		else if (choice == 2)
-		{
-			break;
-		}
+	}
+	else
+	{
+		std::cout << "해당 계좌가 없습니다." << std::endl;
 	}
 }
 /****************************************
 * 출금
 ****************************************/
-void Withdraw(IdData* _str, int _idnum)
+void Withdraw(IdData* _list, const int _count)
 {
-	int _money = 0;
-	std::cout << "현재 잔액: " << _str[_idnum].money << std::endl
-		<< "이름: " << _str[_idnum].name << std::endl
-		<< "출금액: ";
-	while (1)
+	int id = 0;
+	std::cout << "계좌번호: ";
+	std::cin >> id;
+	int i = FineId(_list, id, _count);
+	if (i != -1)
 	{
-		int choice = 1;
-		std::cin >> _money;
-		if (_money > 0)
+		int money = 0;
+		std::cout << "이 름: " << _list[i].name << std::endl
+			<< "잔액: " << _list[i].money << std::endl
+			<< "출금액: ";
+		std::cin >> money;
+		if (money > 0 && money <= _list[i].money)
 		{
-			if (_str[_idnum].money < _money)
-			{
-				std::cout << "출금액이 현재 잔액보다 많습니다." << std::endl;
-				break;
-			}
-			else
-			{
-				_str[_idnum].money -= _money;
-				std::cout << "출금 완료." << std::endl
-					<< "잔액: " << _str[_idnum].money << std::endl;
-				break;
-			}
+			_list[i].money += money;
+			std::cout << "출금 완료" << std::endl;
 		}
-		std::cout << "0이하의 금액입니다. 다시 입력 하시겠습니까?" << std::endl;
-
-		while (choice != 1 && choice != 2)
+		else
 		{
-			std::cout << "1. 예 2. 아니요" << std::endl;
-			std::cin >> choice;
+			std::cout << "입력 금액이 0보다 작거나 잔액보다 큽니다." << std::endl;
 		}
-		if (choice == 1)
-		{
-			continue;
-		}
-		else if (choice == 2)
-		{
-			break;
-		}
+	}
+	else
+	{
+		std::cout << "해당 계좌가 없습니다." << std::endl;
 	}
 }
 /****************************************
