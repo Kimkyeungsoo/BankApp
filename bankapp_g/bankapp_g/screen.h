@@ -14,7 +14,7 @@ typedef struct IdData
 /// </summary>
 /// <param name="">고객 명단</param>
 /// <returns>찾으면 해당 인덱스를 리턴, 없으면 0을 리턴</returns>
-int FineId(IdData*);
+int FineId(IdData* _str, int _id, const int _count);
 /// <summary>
 /// 프로그램 동작 하는 함수
 /// </summary>
@@ -30,13 +30,13 @@ void NewId(IdData*, int&);
 /// </summary>
 /// <param name="">고객 명단</param>
 /// <param name="">변경 할 인덱스</param>
-void Deposit(IdData*, int);
+void Deposit(IdData* _list, const int _count);
 /// <summary>
 /// 출금 함수
 /// </summary>
 /// <param name="">고객 명단</param>
 /// <param name="">변경 할 인덱스</param>
-void Withdraw(IdData*, int);
+void Withdraw(IdData* _list, const int _count);
 /// <summary>
 /// 전체 고객정보 출력
 /// </summary>
