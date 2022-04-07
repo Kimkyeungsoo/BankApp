@@ -139,9 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AccountHandler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="screen.cpp" />
-    <ClCompile Include="screen.h" />
+    <ClCompile Include="Account.cpp" />
+    <ClCompile Include="Account.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AccountHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
