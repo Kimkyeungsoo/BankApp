@@ -14,19 +14,19 @@ int main()
 
 		switch (choice)
 		{
-		case 1:
-			run.MakeAccount();
+		case Sellect::MAKE:
+			run.AccountType();
 			break;
-		case 2:
+		case Sellect::DEPOS:
 			run.DepositMoney();
 			break;
-		case 3:
+		case Sellect::WITHDRAW:
 			run.WithdrawMoney();
 			break;
-		case 4:
+		case Sellect::SHOW:
 			run.ShowAllAccount();
 			break;
-		case 5:
+		case Sellect::EXIT:
 			loop = false;
 			break;
 		default:

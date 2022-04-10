@@ -14,17 +14,17 @@ Account::Account(const int& _accNum, const int& _balance, const char* _cusName)
 	strcpy_s(cusName, strlen(_cusName) + 1, _cusName);
 }
 
-int Account::GetAccNum()
+int Account::GetAccNum() const
 {
 	return accNum;
 }
 
-int Account::GetBalance()
+int Account::GetBalance() const
 {
 	return balance;
 }
 
-char* Account::GetCusName()
+char* Account::GetCusName() const
 {
 	return cusName;
 }
