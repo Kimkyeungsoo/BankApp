@@ -108,7 +108,7 @@ void AccountHandler::MakeHighCredit()
 		std::cin >> money;
 		std::cout << "이자율: ";
 		std::cin >> rate;
-		std::cout << "신용등급(1toA, 2toB, 3toC): ";
+		std::cout << "신용등급(1toA: 7%, 2toB 4%, 3toC 2%): ";
 		std::cin >> rank;
 		if (money < 0 || rate < 0 || (rank < 1 || rank > 3))
 		{
