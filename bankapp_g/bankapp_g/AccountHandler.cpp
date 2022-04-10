@@ -11,7 +11,7 @@ AccountHandler::AccountHandler()
 	}
 }
 
-void AccountHandler::ShowMain()
+void AccountHandler::ShowMain() const
 {
 	std::cout
 		<< "┌────────── [ Menu ]───────────┐" << std::endl
@@ -23,11 +23,37 @@ void AccountHandler::ShowMain()
 		<< "└──────────────────────────────┘" << std::endl;
 }
 
-void AccountHandler::MakeAccount()
+void AccountHandler::AccountType()
 {
-	std::cout << "========== 계좌 개설 ===========" << std::endl;
+	int sellect = 0;
+	std::cout
+		<< "┌───── [ 계좌종류 선택 ]───────┐" << std::endl
+		<< "│     1. 보통예금계좌          │" << std::endl
+		<< "│     2. 신용신뢰계좌          │" << std::endl
+		<< "└──────────────────────────────┘" << std::endl;
+	std::cout << "선택: ";
+	std::cin >> sellect;
+
+	switch (sellect)
+	{
+	case 1:
+		MakeNormal();
+		break;
+	case 2:
+		MakeHighCredit();
+		break;
+	default:
+		std::cout << "잘못된 입력입니다." << std::endl;
+		break;
+	}
+}
+
+void AccountHandler::MakeNormal()
+{
+	std::cout << "======== 보통예금계좌 ==========" << std::endl;
 	int id = 0;
 	int money = 0;
+	int rate = 0;
 	char name[30] = { 0 };
 	std::cout << "계좌번호: ";
 	std::cin >> id;
@@ -41,13 +67,56 @@ void AccountHandler::MakeAccount()
 		std::cin >> name;
 		std::cout << "입금액: ";
 		std::cin >> money;
-		if (money <= 0)
+		std::cout << "이자율: ";
+		std::cin >> rate;
+		if (money < 0 || rate < 0)
 		{
 			std::cout << "잘못된 입력입니다." << std::endl;
 		}
 		else
 		{
-			customer[cusCount] = new Account(id, money, name);
+			customer[cusCount] = new NormalAccount(id, money, name, rate);
+			cusCount++;
+		}
+	}
+	else
+	{
+		std::cout << "해당 계좌번호가 이미 존재합니다." << std::endl;
+	}
+	std::cout << "================================" << std::endl;
+}
+
+void AccountHandler::MakeHighCredit()
+{
+	std::cout << "======== 신용신뢰계좌 ==========" << std::endl;
+	int id = 0;
+	int money = 0;
+	int rate = 0;
+	int rank = 0;
+	char name[30] = { 0 };
+	std::cout << "계좌번호: ";
+	std::cin >> id;
+	if (id <= 0)
+	{
+		std::cout << "잘못된 입력입니다." << std::endl;
+	}
+	else if (FindAccNum(id) == -1)
+	{
+		std::cout << "이 름: ";
+		std::cin >> name;
+		std::cout << "입금액: ";
+		std::cin >> money;
+		std::cout << "이자율: ";
+		std::cin >> rate;
+		std::cout << "신용등급(1toA, 2toB, 3toC): ";
+		std::cin >> rank;
+		if (money < 0 || rate < 0 || (rank < 1 || rank > 3))
+		{
+			std::cout << "잘못된 입력입니다." << std::endl;
+		}
+		else
+		{
+			customer[cusCount] = new HighCreditAccount(id, money, name, rate, rank);
 			cusCount++;
 		}
 	}
