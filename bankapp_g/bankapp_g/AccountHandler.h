@@ -3,11 +3,13 @@
 #include "Account.h"
 #include "NormalAccount.h"
 #include "HighCreditAccount.h"
+#include "BoundCheckPointPtrArray.h"
 
 class AccountHandler
 {
 private:
-	Account* customer[100];
+	//Account* customer[100];
+	BoundCheckPointPtrArray customer;
 	int cusCount;
 public:
 	AccountHandler();
