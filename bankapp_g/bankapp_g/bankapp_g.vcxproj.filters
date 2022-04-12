@@ -33,7 +33,7 @@
     <ClCompile Include="HighCreditAccount.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BoundCheckPointPtrArray.cpp">
+    <ClCompile Include="BoundCheckAccountPtrArray.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="HighCreditAccount.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="BoundCheckPointPtrArray.h">
+    <ClInclude Include="BoundCheckAccountPtrArray.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
